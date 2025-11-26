@@ -11,7 +11,7 @@ app.use(express.json());
 async function connectDatabase() {
   try {
     await mongoose.connect(
-      "mongodb+srv://hqviet3060_db_user:quocviet123@killv3060.cpmbt5n.mongodb.net/fb-clone"
+      "mongodb+srv://hqviet3060_db_user:<mat_khau>@killv3060.cpmbt5n.mongodb.net/fb-clone"
     );
     console.log("Kết nối Database thành công !!!");
   } catch (err) {
