@@ -1,4 +1,3 @@
-// models/Post.js
 const mongoose = require("mongoose");
 
 const postSchema = new mongoose.Schema(
@@ -6,13 +5,12 @@ const postSchema = new mongoose.Schema(
     content: { type: String, required: true },
     userId: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true, index: true },
     commentCount: { type: Number, default: 0 },
-    reactionCount: { type: Number, default: 0 }, // tổng reaction (like, haha,...)
-    shareCount: { type: Number, default: 0 }, // số share (count reaction type === "SHARE")
+    reactionCount: { type: Number, default: 0 }, 
+    shareCount: { type: Number, default: 0 }, 
   },
   { timestamps: true }
 );
 
-// loại bỏ __v khi trả JSON (tuỳ bạn có muốn)
 if (!postSchema.options.toJSON) postSchema.options.toJSON = {};
 postSchema.options.toJSON.transform = function (doc, ret) {
   ret.id = ret._id;
@@ -21,13 +19,11 @@ postSchema.options.toJSON.transform = function (doc, ret) {
   return ret;
 };
 
-// Static method: tính lại counts từ các collection Comment và Reaction
 postSchema.statics.recalcCounts = async function (postId) {
   const Post = this;
   const Comment = mongoose.model("Comment");
   const Reaction = mongoose.model("Reaction");
 
-  // nếu postId truyền undefined -> tính cho tất cả posts (cẩn trọng với production)
   if (!postId) {
     const posts = await Post.find().lean();
     const results = [];
